@@ -3,7 +3,7 @@ FROM jupyter/base-notebook
 USER root
 
 RUN apt-get update \
-  && apt-get install  build-essential\
+  && apt-get install gcc-defaults\
   && gcc -v\
   && apt-get install -yq --no-install-recommends graphviz git \
   && apt-get clean \
