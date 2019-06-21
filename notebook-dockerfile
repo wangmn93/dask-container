@@ -23,7 +23,7 @@ RUN apt-get update \
 RUN pip install Cython
 RUN pip install auto-sklearn
 
-USER $NB_USER
+
 
 RUN conda install --yes --freeze-installed \
     -c conda-forge \
@@ -47,7 +47,7 @@ RUN conda install --yes --freeze-installed \
     && find /opt/conda/lib/python*/site-packages/bokeh/server/static -type f,l -name '*.js' -not -name '*.min.js' -delete \
     && rm -rf /opt/conda/pkgs
 
-USER root
+
 
 # Create the /opt/app directory, and assert that Jupyter's NB_UID/NB_GID values
 # haven't changed. 
