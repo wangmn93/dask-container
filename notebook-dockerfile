@@ -4,27 +4,10 @@ USER root
 
 RUN apt-get update \
   && apt-get install -yq --no-install-recommends graphviz git \
+  && apt-get install -y build-essential swig \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
-  
-RUN conda install --yes --freeze-installed \
-    -c conda-forge \
-    python-blosc \
-    cytoolz \
-    dask==1.2.0 \
-    nomkl \
-    numpy==1.16.2 \
-    pandas==0.24.2 \
-    ipywidgets 
-    
-RUN apt-get update \
-  && apt-get install -y build-essential swig \
-  && gcc -v
-RUN pip install Cython
-RUN pip install auto-sklearn
-
-
-
+   
 RUN conda install --yes --freeze-installed \
     -c conda-forge \
     python-blosc \
@@ -34,7 +17,8 @@ RUN conda install --yes --freeze-installed \
     numpy==1.16.2 \
     pandas==0.24.2 \
     ipywidgets \
-    && pip install tpot joblib tqdm \
+    && pip install tpot joblib tqdm Cython \
+    && pip install auto-sklearn \
     && jupyter labextension install @jupyter-widgets/jupyterlab-manager@0.38.1 dask-labextension@0.3 \
     && pip install graphviz dask-labextension==0.3.3 --no-cache-dir --no-dependencies \
     && conda clean -tipsy \
@@ -47,8 +31,6 @@ RUN conda install --yes --freeze-installed \
     && find /opt/conda/lib/python*/site-packages/bokeh/server/static -type f,l -name '*.js' -not -name '*.min.js' -delete \
     && rm -rf /opt/conda/pkgs
 
-
-
 # Create the /opt/app directory, and assert that Jupyter's NB_UID/NB_GID values
 # haven't changed. 
 RUN mkdir /opt/app \
@@ -58,4 +40,4 @@ RUN mkdir /opt/app \
     fi
 
 WORKDIR /home
-CMD ["jupyter", "lab"]
+CMD ["jupyter", "lab","--allow-root"]
