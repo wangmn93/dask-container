@@ -3,11 +3,12 @@ FROM jupyter/base-notebook
 USER root
 
 RUN apt-get update \
-  && apt-get source gcc-defaults\
-  && gcc -v\
   && apt-get install -yq --no-install-recommends graphviz git \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
+  
+RUN apt-get install gcc\
+  && gcc -v\
 
 USER $NB_USER
 
