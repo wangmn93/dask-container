@@ -20,7 +20,7 @@ RUN conda install --yes --freeze-installed \
 RUN apt-get update \
   && apt-get install -y build-essential swig \
   && gcc -v
-RUN pip install pyrex
+RUN pip install Cython
 RUN pip install auto-sklearn
 
 USER $NB_USER
