@@ -7,6 +7,16 @@ RUN apt-get update \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
   
+RUN conda install --yes --freeze-installed \
+    -c conda-forge \
+    python-blosc \
+    cytoolz \
+    dask==1.2.0 \
+    nomkl \
+    numpy==1.16.2 \
+    pandas==0.24.2 \
+    ipywidgets 
+    
 RUN apt-get update \
   && apt-get install -y build-essential swig \
   && gcc -v
@@ -24,8 +34,7 @@ RUN conda install --yes --freeze-installed \
     numpy==1.16.2 \
     pandas==0.24.2 \
     ipywidgets \
-    && conda install gxx_linux-64 gcc_linux-64 swig \
-    && pip install auto-sklearn tpot joblib tqdm \
+    && pip install tpot joblib tqdm \
     && jupyter labextension install @jupyter-widgets/jupyterlab-manager@0.38.1 dask-labextension@0.3 \
     && pip install graphviz dask-labextension==0.3.3 --no-cache-dir --no-dependencies \
     && conda clean -tipsy \
