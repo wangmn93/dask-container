@@ -3,6 +3,7 @@ FROM jupyter/base-notebook
 USER root
 
 RUN apt-get update \
+  && apt-get install build-essential swig\
   && apt-get install -yq --no-install-recommends graphviz git \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
@@ -18,6 +19,8 @@ RUN conda install --yes --freeze-installed \
     numpy==1.16.2 \
     pandas==0.24.2 \
     ipywidgets \
+    && conda install gxx_linux-64 gcc_linux-64 swig\
+    && pip install auto-sklearn tpot joblib tqdm\
     && jupyter labextension install @jupyter-widgets/jupyterlab-manager@0.38.1 dask-labextension@0.3 \
     && pip install graphviz dask-labextension==0.3.3 --no-cache-dir --no-dependencies \
     && conda clean -tipsy \
